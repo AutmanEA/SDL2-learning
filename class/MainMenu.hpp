@@ -2,6 +2,7 @@
 
 #include <includes.hpp>
 #include <GameOfLife.hpp>
+#include <BSQ.hpp>
 #include <Screen.hpp>
 
 class Screen;
@@ -25,6 +26,7 @@ class MainMenu
 	private:
 
 		GameOfLife	_gol;
+		BSQ			_bsq;
 
 		typedef enum e_mm_actions {
 			HOME,

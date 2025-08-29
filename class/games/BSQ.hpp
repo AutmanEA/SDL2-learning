@@ -1,17 +1,23 @@
 #pragma once
 
 #include <includes.hpp>
+#include <cstdlib>
+#include <ctime>
 #include <Screen.hpp>
+
+# define USER_FILL	1
+# define OBSTACLE	2
+# define SOLUTION	3
 
 class Screen;
 
-class GameOfLife
+class BSQ
 {
 
 	public:
 
-		~GameOfLife();
-		GameOfLife();
+		~BSQ();
+		BSQ();
 
 		void	run();
 		void	render(Screen **mainScreen, Screen **toolboxScreen);
@@ -19,29 +25,29 @@ class GameOfLife
 
 	private:
 
-		typedef enum e_gol_actions {
-			PLAY,
-			FRAME,
+		typedef enum e_bsq_actions {
+			NEW,
+			VALIDATE,
+			RESOLVE,
 			ERASE
-		}	GOL_Actions;
+		}	BSQ_Actions;
 
-		int		_board[65][99];
-		int		_boardBuffer[65][99];
+		int		_board[50][50];
+		int		_boardBuffer[50][50];
 		int		_boardWidth;
 		int		_boardHeight;
 		int		_cellSize;
 
-		bool	_play;
-		bool	_draw;
-		bool	_erase;
+		// bool	_validate;
+		// bool	_draw;
+		// bool	_erase;
 
-		std::map<SDL_Keycode, GOL_Actions>	_keymap;
-		std::map<GOL_Actions, SDL_Rect>		_buttons;
+		std::map<SDL_Keycode, BSQ_Actions>	_keymap;
+		std::map<BSQ_Actions, SDL_Rect>		_buttons;
 
 		void	_eraseBoard(void);
-		void	_resolveOneStep(void);
-		int		_countNeighbours(int x, int y);
 		void	_copyBoard(void);
+		void	_randomBoard(int probability);
 
 		void	_eventsOnMainScreen(SDL_Event &event, Screen *mainScreen);
 		void	_eventsOnToolboxScreen(SDL_Event &event, Screen *toolboxScreen);

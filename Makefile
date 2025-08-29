@@ -11,6 +11,7 @@ SRC		= src/main.cpp				\
 		src/ScreenEvents.cpp		\
 		src/MainMenu.cpp			\
 		src/games/GameOfLife.cpp	\
+		src/games/BSQ.cpp			\
 
 OBJ		= $(addprefix .obj/, $(SRC:.cpp=.o))
 INC		= -I./inc/ -I./class -I./class/games
