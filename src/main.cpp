@@ -64,11 +64,6 @@ int	main()
 			mainMenu.handleEvents(screenEvents.getSDLEvent(), mainScreen, toolboxScreen);
 		}
 
-		mainMenu.run();
-		mainMenu.render(&mainScreen, &toolboxScreen);
-		if (mainMenu.getQuit() == true)
-			running = false;
-
 		SDL_SetRenderDrawColor(mainScreen->getRenderer(), BACKGROUND_COLOR);
 		SDL_RenderClear(mainScreen->getRenderer());
 
@@ -77,6 +72,11 @@ int	main()
 			SDL_SetRenderDrawColor(toolboxScreen->getRenderer(), BACKGROUND_COLOR);
 			SDL_RenderClear(toolboxScreen->getRenderer());
 		}
+
+		mainMenu.run();
+		mainMenu.render(&mainScreen, &toolboxScreen);
+		if (mainMenu.getQuit() == true)
+			running = false;
 
 		SDL_RenderPresent(mainScreen->getRenderer());
 		if (toolboxScreen)

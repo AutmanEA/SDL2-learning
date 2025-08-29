@@ -13,7 +13,7 @@ SRC		= src/main.cpp				\
 		src/games/GameOfLife.cpp	\
 
 OBJ		= $(addprefix .obj/, $(SRC:.cpp=.o))
-INC		= -I./inc/ -I./class/
+INC		= -I./inc/ -I./class -I./class/games
 
 # -- RULES -- #
 
