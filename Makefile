@@ -23,7 +23,7 @@ $(NAME)	: $(OBJ)
 
 .obj/%.o: %.cpp
 	@mkdir -p $(@D)
-	$(CXXC) $(INC) $(shell sdl2-config --cflags) -c $< $(shell sdl2-config --libs) -o $@
+	$(CXXC) $(INC) $(shell sdl2-config --cflags) -c $< -o $@
 
 clean	:
 	rm -rf $(OBJ)
