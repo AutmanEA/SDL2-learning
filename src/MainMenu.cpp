@@ -20,6 +20,9 @@ void	MainMenu::run()
 	case SELECT_GOL:
 		_gol.run();
 		break;
+	case SELECT_BSQ:
+		_bsq.run();
+		break;
 	default:
 		break;
 	}
@@ -34,9 +37,15 @@ void	MainMenu::render(Screen **mainScreen, Screen **toolboxScreen)
 		for (std::map<MM_Actions, SDL_Rect>::iterator b = _buttons.begin(); b != _buttons.end(); ++b)
 		{
 			switch (b->first) {
-				case SELECT_GOL:   SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 0, 200, 0, 255); break;
-				case SELECT_BSQ:   SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 0, 200, 0, 255); break;
-				case QUIT:  SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 0, 0, 200, 255); break;
+				case SELECT_GOL:
+					SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 0, 200, 0, 255);
+					break;
+				case SELECT_BSQ:
+					SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 200, 0, 0, 255);
+					break;
+				case QUIT:
+					SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 0, 0, 200, 255);
+					break;
 				default: break;
 			}
 			SDL_RenderFillRect((*mainScreen)->getRenderer(), &b->second);
@@ -48,6 +57,9 @@ void	MainMenu::render(Screen **mainScreen, Screen **toolboxScreen)
 		break;
 	case SELECT_GOL:
 		_gol.render(mainScreen, toolboxScreen);
+		break;
+	case SELECT_BSQ:
+		_bsq.render(mainScreen, toolboxScreen);
 		break;
 	default:
 		break;
@@ -64,11 +76,15 @@ void	MainMenu::_selector(SDL_Event event, Screen *mainScreen)
 		for (std::map<MM_Actions, SDL_Rect>::iterator b = _buttons.begin(); b != _buttons.end(); ++b)
 		{
 			if (x >= b->second.x && x < b->second.x + b->second.w &&
-				y >= b->second.y && y < b->second.y + b->second.h) {
+				y >= b->second.y && y < b->second.y + b->second.h)
+			{
 				switch (b->first)
 				{
 					case SELECT_GOL:
 						_select = SELECT_GOL;
+						break;
+					case SELECT_BSQ:
+						_select = SELECT_BSQ;
 						break;
 					case QUIT:
 						_select = QUIT;
@@ -102,7 +118,11 @@ void	MainMenu::handleEvents(SDL_Event &event, Screen *mainScreen, Screen *toolbo
 	case SELECT_GOL:
 		_gol.handleEvents(event, mainScreen, toolboxScreen);
 		break;
+	case SELECT_BSQ:
+		_bsq.handleEvents(event, mainScreen, toolboxScreen);
+		break;
 	case QUIT:
+		std::cout << "Quitting..." << std::endl;
 		_quit = true;
 		break;
 	default:

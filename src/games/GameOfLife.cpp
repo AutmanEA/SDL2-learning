@@ -84,11 +84,11 @@ void	GameOfLife::_eraseBoard(void)
 
 void		GameOfLife::run()
 {
-		if (_play)
-		{
-			_copyBoard();
-			_resolveOneStep();
-		}
+	if (_play)
+	{
+		_copyBoard();
+		_resolveOneStep();
+	}
 }
 
 void	GameOfLife::render(Screen **mainScreen, Screen **toolboxScreen)
@@ -128,11 +128,11 @@ void	GameOfLife::render(Screen **mainScreen, Screen **toolboxScreen)
 			}
 			else
 			{
-				SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 15, 5, 5, 20);
+				SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 5, 5, 15, 20);
 				SDL_RenderDrawRect((*mainScreen)->getRenderer(), &cell);
 			}
 
-			SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 255, 80, 80, 255);
+			SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 80, 80, 255, 255);
 
 			SDL_Rect rect;
 			rect.w = _cellSize * _boardWidth;
@@ -145,7 +145,7 @@ void	GameOfLife::render(Screen **mainScreen, Screen **toolboxScreen)
 
 			for (int i = 0; i < thickness; ++i)
 			{
-				SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 255 - 51 * i, 80 - 16 * i, 80 - 16 * i, 255 - 51 * i);
+				SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 80 - 16 * i, 80 - 16 * i, 255 - 51 * i, 255 - 51 * i);
 				SDL_Rect r = { rect.x - i, rect.y - i, rect.w + 2*i, rect.h + 2*i };
 				SDL_RenderDrawRect((*mainScreen)->getRenderer(), &r);
 			}
