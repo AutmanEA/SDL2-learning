@@ -13,7 +13,8 @@ BSQ::BSQ() :
 	_squareStartX(0),
 	_squareStartY(0),
 	_squareCurrentX(0),
-	_squareCurrentY(0)
+	_squareCurrentY(0),
+	_squareSize(0)
 {
 	_keymap[SDLK_SPACE] = NEW;
 	_keymap[SDLK_RETURN] = VALIDATE;
@@ -42,7 +43,7 @@ void	BSQ::_newBoard(void)
 	_eraseBoard();
 	std::srand(static_cast<unsigned>(std::time(NULL)));
 	_randomBoard(std::rand() % 15 + 5);
-	_initSolution();
+	_initSolutions();
 	_copyBoard();
 }
 
@@ -78,47 +79,39 @@ void	BSQ::_randomBoard(int probability)
 	}
 }
 
-void	BSQ::_initSolution(void)
+void	BSQ::_setSolutionAt(int x, int y)
 {
-	int	save_i = 0;
-	int	save_j = 0;
-	int	saveMax = 0;
-
-	_initHeatmap();
-
-	for (int i = 1; i < _boardWidth; i++)
+	for (int i = 0; i < _squareSize; i++)
 	{
-		for (int j = 1; j < _boardHeight; j++)
+		int	tmp = y;
+		for (int j = 0; j < _squareSize; j++)
 		{
-			if (_board[j][i] == OBSTACLE)
-				_heatmap[j][i] = 0;
-			else
-				_heatmap[j][i] = std::min(std::min(_heatmap[j][i - 1], _heatmap[j - 1][i]), _heatmap[j - 1][i - 1]) + 1;
-			if (_heatmap[j][i] > saveMax)
-			{
-				saveMax = _heatmap[j][i];
-				save_i = i;
-				save_j = j;
-			}
-		}
-	}
-
-	//! faut que je change pour que ca trouve toutes les solutions, pas juste la premiere dispo
-
-	for (int i = 0; i < saveMax; i++)
-	{
-		int	tmp = save_j;
-		for (int j = 0; j < saveMax; j++)
-		{
-			_board[tmp][save_i] = SOLUTION;
+			_board[tmp][x] = SOLUTION;
 			tmp--;
 		}
-		save_i--;
+		x--;
+	}
+}
+
+void	BSQ::_initSolutions(void)
+{
+	_initHeatmap();
+
+	for (int i = 0; i < _boardWidth; i++)
+	{
+		for (int j = 0; j < _boardHeight; j++)
+		{
+			if (_heatmap[j][i] == _squareSize)
+			{
+				_setSolutionAt(i, j);
+			}
+		}
 	}
 }
 
 void	BSQ::_initHeatmap(void)
 {
+	_squareSize = 0;
 	for (int i = 0; i < _boardWidth; i++)
 	{
 		if (_board[0][i] != OBSTACLE)
@@ -132,6 +125,20 @@ void	BSQ::_initHeatmap(void)
 			_heatmap[j][0] = 1;
 		else
 			_heatmap[j][0] = 0;
+	}
+	for (int i = 1; i < _boardWidth; i++)
+	{
+		for (int j = 1; j < _boardHeight; j++)
+		{
+			if (_board[j][i] == OBSTACLE)
+				_heatmap[j][i] = 0;
+			else
+				_heatmap[j][i] = std::min(std::min(_heatmap[j][i - 1], _heatmap[j - 1][i]), _heatmap[j - 1][i - 1]) + 1;
+			if (_heatmap[j][i] > _squareSize)
+			{
+				_squareSize = _heatmap[j][i];
+			}
+		}
 	}
 }
 
@@ -266,6 +273,8 @@ void	BSQ::_eventsOnMainScreen(SDL_Event &event, Screen *mainScreen)
 			{
 				_squareStartX = (event.button.x - ((WIDTH - (_boardWidth * _cellSize)) / 2)) / _cellSize;
 				_squareStartY = (event.button.y - ((HEIGHT - (_boardHeight * _cellSize)) / 2)) / _cellSize;
+				_squareCurrentX = (event.motion.x - ((WIDTH - (_boardWidth * _cellSize)) / 2)) / _cellSize;
+				_squareCurrentY = (event.motion.y - ((HEIGHT - (_boardHeight * _cellSize)) / 2)) / _cellSize;
 				_draw = true;
 			}
 	// 		else if (event.button.button == SDL_BUTTON_RIGHT)

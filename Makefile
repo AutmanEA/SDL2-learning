@@ -4,28 +4,27 @@ NAME	= run
 
 CXXC	= c++
 CXXFLAGS= -Wall -Wextra -Werror -g
-CPPFLAGS= $(shell sdl2-config --cflags --libs)
 
 SRC		= src/main.cpp				\
 		src/Screen.cpp				\
 		src/ScreenEvents.cpp		\
 		src/MainMenu.cpp			\
 		src/games/GameOfLife.cpp	\
-		src/games/BSQ.cpp			\
+		src/games/BSQ.cpp	\
 
 OBJ		= $(addprefix .obj/, $(SRC:.cpp=.o))
-INC		= -I./inc/ -I./class -I./class/games
+INC		= -I./inc -I./inc/class -I./inc/class/games
 
 # -- RULES -- #
 
 all		: $(NAME)
 
 $(NAME)	: $(OBJ)
-	$(CXXC) $(CXXFLAGS) $(CPPFLAGS) -o $@ $^
+	$(CXXC) $(CXXFLAGS) $(shell sdl2-config --cflags) $^ $(shell sdl2-config --libs) -o $@
 
 .obj/%.o: %.cpp
 	@mkdir -p $(@D)
-	$(CXXC) $(INC) $(CXXFLAGS) -c -o $@ $<
+	$(CXXC) $(INC) $(shell sdl2-config --cflags) -c $< -o $@
 
 clean	:
 	rm -rf $(OBJ)
