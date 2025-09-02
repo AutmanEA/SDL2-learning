@@ -35,7 +35,12 @@ fclean	: clean
 
 re		: fclean all
 
+docker	:
+	docker build . -t runsdl
+	xhost +local:docker
+	docker run -it --rm -e DISPLAY=$$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix runsdl:latest
+
 vg:
 	valgrind ./run
 
-.PHONY	: all clean fclean re vg
+.PHONY	: all clean fclean re vg docker
