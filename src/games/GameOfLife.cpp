@@ -26,22 +26,20 @@ int		GameOfLife::_countNeighbours(int x, int y)
 {
 	int	count = 0;
 
-	if (x < _boardWidth - 1 && _boardBuffer[y][x + 1] == 1)
-		count += 1;
-	if (x > 0 && _boardBuffer[y][x - 1] == 1)
-		count += 1;
-	if (y < _boardHeight - 1 && _boardBuffer[y + 1][x] == 1)
-		count += 1;
-	if (y > 0 && _boardBuffer[y - 1][x] == 1)
-		count += 1;
-	if (x < _boardWidth - 1 && y < _boardHeight - 1 && _boardBuffer[y + 1][x + 1] == 1)
-		count += 1;
-	if (y < _boardHeight - 1 && x > 0 && _boardBuffer[y + 1][x - 1] == 1)
-		count += 1;
-	if (x < _boardWidth - 1 && y > 0 && _boardBuffer[y - 1][x + 1] == 1)
-		count += 1;
-	if (y > 0 && x > 0 && _boardBuffer[y - 1][x - 1] == 1)
-		count += 1;
+	for (int offsetY = -1; offsetY <= 1; offsetY++)
+	{
+		for (int offsetX = -1; offsetX <= 1; offsetX++)
+		{
+			if (offsetX == 0 && offsetY == 0)
+				continue;
+
+			int	neighborX = (x + offsetX + (_boardWidth - 1)) % (_boardWidth - 1);
+			int	neighborY = (y + offsetY + (_boardHeight - 1)) % (_boardHeight - 1);
+
+			if (_boardBuffer[neighborY][neighborX] == 1)
+				count++;
+		}
+	}
 
 	return (count);
 }
