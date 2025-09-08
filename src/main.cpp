@@ -34,8 +34,15 @@ int	main()
 	ScreenEvents	screenEvents(event);
 	MainMenu		mainMenu;
 
+	Uint32	lastTick = SDL_GetTicks();
+
 	while (running)
 	{
+		Uint32	now = SDL_GetTicks();
+		float	deltaTime = (now - lastTick) / 1000.0f;
+
+		lastTick = now;
+
 		while (SDL_PollEvent(&screenEvents.getSDLEvent()))
 		{
 			screenEvents.handleEvents(running, mainScreen, toolboxScreen);
@@ -73,7 +80,7 @@ int	main()
 			SDL_RenderClear(toolboxScreen->getRenderer());
 		}
 
-		mainMenu.run();
+		mainMenu.run(deltaTime);
 		mainMenu.render(&mainScreen, &toolboxScreen);
 		if (mainMenu.getQuit() == true)
 			running = false;

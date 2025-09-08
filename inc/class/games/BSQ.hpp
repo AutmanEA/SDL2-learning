@@ -40,8 +40,6 @@ class BSQ
 		int		_boardHeight;
 		int		_cellSize;
 
-		//! ATTENTION, LA RESOLUTION DU BSQ NE MARCHE PAS, J'AI INVERSE X et Y!!!
-
 		// bool	_validate;
 		bool	_draw;
 		// bool	_erase;

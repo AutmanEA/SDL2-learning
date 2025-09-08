@@ -6,14 +6,15 @@ MainMenu::MainMenu() :
 {
 	_buttons[SELECT_GOL] = {20, 20, 50, 50};
 	_buttons[SELECT_BSQ] = {20, 90, 50, 50};
-	_buttons[QUIT] = {20, 160, 50, 50};
+	_buttons[SELECT_PLATFORMER] = {20, 160, 50, 50};
+	_buttons[QUIT] = {20, 230, 50, 50};
 }
 
 MainMenu::~MainMenu() {}
 
 bool	MainMenu::getQuit() { return _quit; }
 
-void	MainMenu::run()
+void	MainMenu::run(float deltaTime)
 {
 	switch (_select)
 	{
@@ -22,6 +23,9 @@ void	MainMenu::run()
 		break;
 	case SELECT_BSQ:
 		_bsq.run();
+		break;
+	case SELECT_PLATFORMER:
+		_platformer.run(deltaTime);
 		break;
 	default:
 		break;
@@ -43,6 +47,9 @@ void	MainMenu::render(Screen **mainScreen, Screen **toolboxScreen)
 				case SELECT_BSQ:
 					SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 200, 0, 0, 255);
 					break;
+				case SELECT_PLATFORMER:
+					SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 200, 200, 0, 255);
+					break;
 				case QUIT:
 					SDL_SetRenderDrawColor((*mainScreen)->getRenderer(), 0, 0, 200, 255);
 					break;
@@ -60,6 +67,9 @@ void	MainMenu::render(Screen **mainScreen, Screen **toolboxScreen)
 		break;
 	case SELECT_BSQ:
 		_bsq.render(mainScreen, toolboxScreen);
+		break;
+	case SELECT_PLATFORMER:
+		_platformer.render(mainScreen, toolboxScreen);
 		break;
 	default:
 		break;
@@ -85,6 +95,9 @@ void	MainMenu::_selector(SDL_Event event, Screen *mainScreen)
 						break;
 					case SELECT_BSQ:
 						_select = SELECT_BSQ;
+						break;
+					case SELECT_PLATFORMER:
+						_select = SELECT_PLATFORMER;
 						break;
 					case QUIT:
 						_select = QUIT;
@@ -120,6 +133,9 @@ void	MainMenu::handleEvents(SDL_Event &event, Screen *mainScreen, Screen *toolbo
 		break;
 	case SELECT_BSQ:
 		_bsq.handleEvents(event, mainScreen, toolboxScreen);
+		break;
+	case SELECT_PLATFORMER:
+		_platformer.handleEvents(event, mainScreen, toolboxScreen);
 		break;
 	case QUIT:
 		std::cout << "Quitting..." << std::endl;

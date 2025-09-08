@@ -3,6 +3,7 @@
 #include <includes.hpp>
 #include <GameOfLife.hpp>
 #include <BSQ.hpp>
+#include <Platformer.hpp>
 #include <Screen.hpp>
 
 class Screen;
@@ -16,7 +17,7 @@ class MainMenu
 		MainMenu();
 		~MainMenu();
 
-		void	run();
+		void	run(float deltaTime);
 		void	render(Screen **mainScreen, Screen **toolboxScreen);
 
 		void	handleEvents(SDL_Event &event, Screen *mainScreen, Screen *toolboxScreen);
@@ -27,11 +28,13 @@ class MainMenu
 
 		GameOfLife	_gol;
 		BSQ			_bsq;
+		Platformer	_platformer;
 
 		typedef enum e_mm_actions {
 			HOME,
 			SELECT_GOL,
 			SELECT_BSQ,
+			SELECT_PLATFORMER,
 			QUIT
 		}	MM_Actions;
 

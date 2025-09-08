@@ -33,8 +33,8 @@ int		GameOfLife::_countNeighbours(int x, int y)
 			if (offsetX == 0 && offsetY == 0)
 				continue;
 
-			int	neighborX = (x + offsetX + (_boardWidth - 1)) % (_boardWidth - 1);
-			int	neighborY = (y + offsetY + (_boardHeight - 1)) % (_boardHeight - 1);
+			int	neighborX = (x + offsetX + (_boardWidth)) % (_boardWidth);
+			int	neighborY = (y + offsetY + (_boardHeight)) % (_boardHeight);
 
 			if (_boardBuffer[neighborY][neighborX] == 1)
 				count++;
